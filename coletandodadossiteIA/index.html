@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema IA — Coleta e Análise</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <!-- ===================== NAVEGAÇÃO ===================== -->
+    <nav>
+        <h1>Sistema de IA <i class="fa-solid fa-robot"></i></h1>
+        <button class="nav-btn active" onclick="mostrarSecao('dashboard', event)">Dashboard <i class="fa-solid fa-chart-bar"></i></button>
+        <button class="nav-btn" onclick="mostrarSecao('cadastro', event)">Cadastrar Site <i class="fa-solid fa-pen"></i></button>
+        <button class="nav-btn" onclick="mostrarSecao('coletar', event)">Coletar Dados <i class="fa-solid fa-box-open"></i></button>
+        <button class="nav-btn" onclick="mostrarSecao('coletas', event)">Ver Coletas <i class="fa-solid fa-glasses"></i></button>
+        <button class="nav-btn" onclick="mostrarSecao('conversaIA', event)">Analise de IA <i class="fa-brands fa-openai"></i></button>
+        <button class="nav-btn pdf-btn" onclick="baixarPDF()">Relatório PDF <i class="fa-solid fa-file-pdf"></i></button>
+    </nav>
+
+    <main>
+
+        <!-- ===================== SEÇÃO DASHBOARD ===================== -->
+        <section id="dashboard" class="secao ativa">
+            <h2>Visão Geral</h2>
+            <div id="cards-stats" class="cards-container">
+                <p class="loading">Carregando estatísticas...</p>
+            </div>
+
+            <h2 style="margin-top:2rem;">Volume de coletas por tema <i class="fa-solid fa-chart-bar"></i></h2>
+            <div class="chart-wrapper">
+                <canvas id="graficoBarras"></canvas>
+            </div>
+        </section>
+
+        <!-- ===================== SEÇÃO CADASTRO ===================== -->
+        <section id="cadastro" class="secao">
+            <h2>Cadastrar fonte de pesquisa <i class="fa-solid fa-pen"></i></h2>
+            <div class="form-card">
+                <div class="campo">
+                    <label for="nome_site">Nome do Site</label>
+                    <input type="text" id="nome_site" placeholder="Ex: MIT Technology Review" />
+                </div>
+                <div class="campo">
+                    <label for="url_site">URL</label>
+                    <input type="text" id="url_site" placeholder="https://www.exemplo.com" />
+                    <span id="url-validacao" class="validacao-msg"></span>
+                </div>
+                <div class="campo">
+                    <label for="id_tema">Categoria de IA</label>
+                    <select id="id_tema">
+                        <option value="">Carregando temas...</option>
+                    </select>
+                </div>
+                <button class="btn-primario" onclick="cadastrarSite()">Cadastrar Site</button>
+                <div id="msg-cadastro" class="msg"></div>
+            </div>
+        </section>
+
+        <!-- ===================== SEÇÃO COLETAR ===================== -->
+        <section id="coletar" class="secao">
+            <h2>Coletar dados <i class="fa-solid fa-box-open"></i></h2>
+            <div class="form-card">
+                <div class="campo">
+                    <label for="site-coletar">Selecione o site cadastrado</label>
+                    <select id="site-coletar">
+                        <option value="">Carregando sites...</option>
+                    </select>
+                </div>
+                <button class="btn-primario" onclick="iniciarColeta()">Coletar Agora</button>
+                <div id="msg-coleta" class="msg"></div>
+                <div id="resultado-coleta" class="resultado-box" style="display:none;"></div>
+            </div>
+        </section>
+
+        <!-- ===================== SEÇÃO VER COLETAS ===================== -->
+        <section id="coletas" class="secao">
+            <h2>Histórico de Coletas <i class="fa-solid fa-glasses"></i></h2>
+            <div class="tabela-wrapper">
+                <table id="tabela-coletas">
+                    <thead>
+                        <tr>
+                            <th>Categoria</th>
+                            <th>Site</th>
+                            <th>Título</th>
+                            <th>Links</th>
+                            <th>Imagens</th>
+                            <th>Keywords IA</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-coletas">
+                        <tr>
+                            <td colspan="7" class="loading">Carregando...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="conversaIA" class="secao">
+            <h2>Chat com IA <i class="fa-brands fa-openai"></i></h2>
+
+            <div class="chat">
+
+            <div id="mensagens"></div>
+
+            <div class="input-area">
+                <input type="text" id="input">
+                <button onclick="enviarMensagem()"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+
+        </div>
+        </section>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+
+    <script>
+        const mensagens = document.getElementById('mensagens');
+
+async function enviarMensagem() {
+
+    const input = document.getElementById('input');
+
+    const texto = input.value;
+
+    if(!texto) return;
+
+    mensagens.innerHTML += `
+        <div class="usuario">
+            <strong>Você:</strong> ${texto}
+        </div>
+    `;
+
+    input.value = '';
+
+    const resposta = await fetch('http://localhost:3000/chat', {
+
+        method: 'POST',
+
+        headers: {
+            'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify({
+            mensagem: texto
+        })
+
+    });
+
+    const dados = await resposta.json();
+
+    mensagens.innerHTML += `
+        <div class="ia">
+            <strong>IA:</strong> ${dados.resposta}
+        </div>
+    `;
+
+    mensagens.scrollTop = mensagens.scrollHeight;
+    }
+
+        gsap.fromTo('.nav-btn',
+            {
+                opacity: -1,
+                y: -20
+            },
+            {
+                delay: 1,
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                stagger: 0.3
+            }
+        );
+
+        gsap.fromTo('h1',
+            {
+                opacity: 0,
+                y: -20
+            },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                stagger: 0.3
+            }
+        );
+
+        gsap.fromTo('#dashboard',
+            {
+                opacity: 0,
+                y: -20
+            },
+            {
+                delay: 2,
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                stagger: 0.3
+            }
+        );
+    </script>
+
+</body>
+
+</html>

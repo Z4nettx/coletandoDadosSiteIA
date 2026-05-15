@@ -1,0 +1,442 @@
+/* ============================================================
+   style.css — Sistema IA
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --azul: #2563eb;
+    --azul-esc: #1d4ed8;
+    --verde: #16a34a;
+    --roxo: #7c3aed;
+    --laranja: #ea580c;
+    --cinza-bg: #f1f5f9;
+    --cinza-brd: #e2e8f0;
+    --texto: #1e293b;
+    --subtexto: #64748b;
+    --branco: #ffffff;
+    --radius: 10px;
+    --sombra: 0 2px 12px rgba(0, 0, 0, .08);
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--cinza-bg);
+    color: var(--texto);
+    min-height: 100vh;
+    display: flex;
+    font-family: "Poppins", sans-serif;
+}
+
+input, select, button {
+    font-family: "Poppins", sans-serif;
+}
+
+/* ---- Header ---- */
+header {
+    background: linear-gradient(135deg, #1e40af, #7c3aed);
+    color: var(--branco);
+    padding: 1.5rem 2rem;
+    text-align: center;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.subtitulo {
+    font-size: 0.9rem;
+    opacity: 0.85;
+    margin-top: 0.3rem;
+}
+
+/* ---- Nav ---- */
+nav {
+    background: var(--branco);
+    border-bottom: 2px solid var(--cinza-brd);
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 0.75rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: var(--sombra);
+}
+
+.nav-btn {
+    background: transparent;
+    border: 1.5px solid var(--cinza-brd);
+    border-radius: 6px;
+    color: var(--texto);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.45rem 1.7rem;
+    transition: all .2s;
+}
+
+h2 i {
+    margin-left: 0.5rem;
+}
+
+button i {
+    margin-left: 0.5rem;
+}
+
+h1 {
+    font-size: 1.35rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid black;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+    background: var(--azul);
+    border-color: var(--azul);
+    color: var(--branco);
+}
+
+.pdf-btn {
+    border-color: var(--verde);
+    color: var(--verde);
+}
+
+.pdf-btn:hover {
+    background: var(--verde);
+    color: var(--branco);
+    border-color: var(--verde);
+}
+
+/* ---- Main ---- */
+main {
+    flex: 1;
+    padding: 2rem 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* ---- Seções ---- */
+.secao {
+    display: none;
+}
+
+.secao.ativa {
+    display: block;
+}
+
+.secao h2 {
+    font-size: 1.25rem;
+    color: var(--texto);
+    margin-bottom: 1.2rem;
+    border-left: 4px solid var(--azul);
+    padding-left: 0.75rem;
+}
+
+/* ---- Cards de Estatística ---- */
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.card-stat {
+    background: var(--branco);
+    border-radius: var(--radius);
+    box-shadow: var(--sombra);
+    padding: 1.2rem;
+    border-top: 4px solid var(--azul);
+}
+
+.card-stat.cor-verde {
+    border-top-color: var(--verde);
+}
+
+.card-stat.cor-roxo {
+    border-top-color: var(--roxo);
+}
+
+.card-stat.cor-laranja {
+    border-top-color: var(--laranja);
+}
+
+.card-stat h3 {
+    font-size: 0.85rem;
+    color: var(--subtexto);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-stat .valor-grande {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--texto);
+}
+
+.card-stat .detalhe {
+    font-size: 0.78rem;
+    color: var(--subtexto);
+    margin-top: 0.3rem;
+}
+
+/* ---- Gráfico ---- */
+.chart-wrapper {
+    background: var(--branco);
+    border-radius: var(--radius);
+    box-shadow: var(--sombra);
+    padding: 1.5rem;
+    max-width: 700px;
+}
+
+/* ---- Formulário ---- */
+.form-card {
+    background: var(--branco);
+    border-radius: var(--radius);
+    box-shadow: var(--sombra);
+    padding: 1.75rem;
+    max-width: 900px;
+}
+
+.campo {
+    margin-bottom: 1rem;
+}
+
+.campo label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--subtexto);
+    margin-bottom: 0.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+    border: 1.5px solid var(--cinza-brd);
+    border-radius: 7px;
+    font-size: 0.95rem;
+    padding: 0.6rem 0.8rem;
+    transition: border-color .2s;
+    outline: none;
+    color: var(--texto);
+    background: var(--branco);
+}
+
+.campo input:focus,
+.campo select:focus {
+    border-color: var(--azul);
+}
+
+.campo input.invalida {
+    border-color: #dc2626;
+}
+
+.campo input.valida {
+    border-color: var(--verde);
+}
+
+.validacao-msg {
+    font-size: 0.78rem;
+    margin-top: 0.3rem;
+    display: block;
+}
+
+.validacao-msg.ok {
+    color: var(--verde);
+}
+
+.validacao-msg.err {
+    color: #dc2626;
+}
+
+.btn-primario {
+    background: var(--azul);
+    border: none;
+    border-radius: 7px;
+    color: var(--branco);
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 0.7rem 1.8rem;
+    transition: background .2s;
+    margin-top: 0.5rem;
+    width: 100%;
+}
+
+.btn-primario:hover {
+    background: var(--azul-esc);
+}
+
+.btn-primario:disabled {
+    background: var(--subtexto);
+    cursor: not-allowed;
+}
+
+/* ---- Mensagens ---- */
+.msg {
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin-top: 0.8rem;
+    padding: 0.6rem 0.8rem;
+    border-radius: 6px;
+    display: none;
+}
+
+.msg.sucesso {
+    background: #dcfce7;
+    color: var(--verde);
+    display: block;
+}
+
+.msg.erro {
+    background: #fee2e2;
+    color: #dc2626;
+    display: block;
+}
+
+/* ---- Resultado da coleta ---- */
+.resultado-box {
+    background: #f0fdf4;
+    border: 1.5px solid #bbf7d0;
+    border-radius: 8px;
+    margin-top: 1rem;
+    padding: 1rem;
+    font-size: 0.88rem;
+    line-height: 1.7;
+}
+
+.resultado-box strong {
+    color: var(--texto);
+}
+
+/* ---- Tabela ---- */
+.tabela-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--branco);
+    border-radius: var(--radius);
+    box-shadow: var(--sombra);
+    overflow: hidden;
+    font-size: 0.85rem;
+}
+
+thead tr {
+    background: linear-gradient(135deg, #1e40af, #7c3aed);
+    color: var(--branco);
+}
+
+th {
+    padding: 0.8rem 1rem;
+    text-align: left;
+    font-size: 0.78rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--cinza-brd);
+    vertical-align: top;
+}
+
+tbody tr:hover {
+    background: #f8fafc;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+td.keywords {
+    color: var(--roxo);
+    font-size: 0.78rem;
+    max-width: 200px;
+    word-break: break-word;
+}
+
+/* ---- Misc ---- */
+.loading {
+    color: var(--subtexto);
+    font-style: italic;
+    padding: 1rem;
+    text-align: center;
+}
+
+/* ---- Footer ---- */
+footer {
+    background: var(--texto);
+    color: rgba(255, 255, 255, .6);
+    font-size: 0.8rem;
+    padding: 1rem;
+    text-align: center;
+}
+
+
+/* ia */
+.chat {
+    background: var(--branco);
+    border-radius: var(--radius);
+    box-shadow: var(--sombra);
+    padding: 1.75rem;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#mensagens {
+    overflow-y: scroll;
+    min-height: 340px;
+}
+
+.input-area {
+    /* align-self: flex-end; */
+    margin-top: 1rem;
+}
+
+.input-area input {
+    width: 35rem;
+    height: 40px;
+    border: 0;
+    border: 1px solid black;
+
+    border-radius: var(--radius);
+}
+
+.input-area button {
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: 1px solid black;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.input-area button i {
+    margin: 0;
+}
